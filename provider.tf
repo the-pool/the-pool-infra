@@ -1,3 +1,7 @@
+// Terraform Setting
+/*
+  - terraform aws 연결
+*/
 terraform {
   required_providers {
     aws = {

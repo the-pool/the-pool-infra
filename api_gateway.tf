@@ -16,7 +16,7 @@ resource "aws_apigatewayv2_stage" "thepool_api_gateway_stage" {
 
 // API Gateway EC2 연결
 /*
-  - 모든 Method, 모든 라우팅 경로를 프록시 통합으로 target으로 넘기기
+  - 모든 Method, 모든 라우팅 경로를 프록시 통합으로 target(ec2 등록됨)으로 넘기기
   - ec2에 할당된 public ip와 연결
 */
 resource "aws_apigatewayv2_route" "thepool_api_gateway_route" {
@@ -54,6 +54,9 @@ resource "aws_apigatewayv2_api_mapping" "example" {
 }
 
 // 출력
+/*
+  - aws에서 자동 제공되는 api gateway domain 확인
+*/
 output "aws_apigateway_endpoint" {
   value = aws_apigatewayv2_api.thepool_api_gateway.api_endpoint
 }

@@ -1,3 +1,9 @@
+// route53 등록
+/*
+  - 이미 등록 되어 있는 route53 import해서 사용
+  - DNS 서버 렉코드는 이미 등록되어있음(import는 하지 않음)
+  - api gateway에 등록한 도메인 이름도 A레코드로 등록
+*/
 resource "aws_route53_zone" "thepool_hosted_zone" {
   name    = "thepool.kr"
   comment = ""
@@ -14,10 +20,3 @@ resource "aws_route53_record" "thepool_api_server_domain" {
     evaluate_target_health = false
   }
 }
-# resource "aws_route53_record" "thepool_api_server_domain" {
-#   zone_id = aws_route53_zone.thepool_hosted_zone.id
-#   name    = "api.thepool.kr"
-#   type    = "A"
-#   ttl     = 300
-#   records = [aws_eip.api_server_eip.public_ip]
-# }

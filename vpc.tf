@@ -1,3 +1,7 @@
+// VPC 생성
+/*
+  - vpc 생성
+*/
 resource "aws_vpc" "the_pool_vpc" {
   cidr_block = "10.0.0.0/16"
   tags = {

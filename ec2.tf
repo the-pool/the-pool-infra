@@ -55,7 +55,7 @@ resource "aws_security_group" "api_server_sg" {
 /*
   - ec2 생성 & 도커 다운 및 서브넷 설정
   - ip 설정
-  - 도커 설치(https://hossamelshahawi.com/2021/09/30/i/)
+  - 생성하면서 동시에 도커 설치(https://hossamelshahawi.com/2021/09/30/i/)
 */
 resource "aws_instance" "the_pool_api_server" {
   # Amazon Linux2 ami
