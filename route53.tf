@@ -10,13 +10,13 @@ resource "aws_route53_zone" "thepool_hosted_zone" {
 }
 
 resource "aws_route53_record" "thepool_api_server_domain" {
-  name    = aws_apigatewayv2_domain_name.thepool_api_gateway_domain_name.domain_name
+  name    = "api.thepool.kr"
   type    = "A"
   zone_id = aws_route53_zone.thepool_hosted_zone.zone_id
 
   alias {
-    name                   = aws_apigatewayv2_domain_name.thepool_api_gateway_domain_name.domain_name_configuration[0].target_domain_name
-    zone_id                = aws_apigatewayv2_domain_name.thepool_api_gateway_domain_name.domain_name_configuration[0].hosted_zone_id
+    name                   = aws_cloudfront_distribution.thepool_cf_distribution.domain_name    #aws_apigatewayv2_domain_name.thepool_api_gateway_domain_name.domain_name_configuration[0].target_domain_name
+    zone_id                = aws_cloudfront_distribution.thepool_cf_distribution.hosted_zone_id #aws_apigatewayv2_domain_name.thepool_api_gateway_domain_name.domain_name_configuration[0].hosted_zone_id
     evaluate_target_health = false
   }
 }
