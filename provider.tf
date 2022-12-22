@@ -17,3 +17,11 @@ provider "aws" {
   shared_credentials_files = ["~/.aws/credentials"]
   profile                  = "thepool"
 }
+
+provider "aws" {
+  alias                    = "virginia"
+  region                   = "us-east-1"
+  shared_config_files      = ["~/.aws/config"]
+  shared_credentials_files = ["~/.aws/credentials"]
+  profile                  = "thepool"
+}

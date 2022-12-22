@@ -7,3 +7,17 @@ resource "aws_acm_certificate" "thepool_subdomain_acm" {
   domain_name       = "*.thepool.kr"
   validation_method = "DNS"
 }
+
+resource "aws_acm_certificate" "thepool_acm_virgina_domain" {
+  provider = aws.virginia
+
+  domain_name       = "thepool.kr"
+  validation_method = "DNS"
+}
+
+resource "aws_acm_certificate" "thepool_acm_virginia" {
+  provider = aws.virginia
+
+  domain_name       = "*.thepool.kr"
+  validation_method = "DNS"
+}
