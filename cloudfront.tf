@@ -27,16 +27,22 @@ resource "aws_cloudfront_distribution" "thepool_cf_distribution" {
 
   enabled = true
 
+  # Certificate Settings
+  aliases = ["api.thepool.kr"]
   viewer_certificate {
-    cloudfront_default_certificate = true
+    acm_certificate_arn      = aws_acm_certificate.thepool_acm_virginia.arn
+    minimum_protocol_version = "TLSv1.1_2016"
+    ssl_support_method       = "sni-only"
   }
 
+  # 지역 제한
   restrictions {
     geo_restriction {
       restriction_type = "none"
     }
   }
 
+  # 캐시 정책
   default_cache_behavior {
     allowed_methods  = ["DELETE", "GET", "HEAD", "OPTIONS", "PATCH", "POST", "PUT"]
     cached_methods   = ["GET", "HEAD"]
@@ -56,6 +62,7 @@ resource "aws_cloudfront_distribution" "thepool_cf_distribution" {
     }
   }
 
+  # 캐시정책 (여러개 가능 코드 순서대로 우선선위 up)
   ordered_cache_behavior {
     path_pattern     = "/static/*"
     allowed_methods  = ["DELETE", "GET", "HEAD", "OPTIONS", "PATCH", "POST", "PUT"]
