@@ -10,7 +10,7 @@ The Pool 인프라 구성도 및 사용방법입니다.
 
 ### AWS CLI & Terraform 다운로드  
 👉 [AWS CLI 다운로드](https://docs.aws.amazon.com/ko_kr/cli/latest/userguide/getting-started-install.html)  
-👉 MacOS Homebrew를 이용한 Terraform 다운로드
+👉 macOS Homebrew를 이용한 Terraform 다운로드
 ```sh
 $ brew install terraform@1.2
 $ terraform --version
