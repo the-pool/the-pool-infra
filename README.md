@@ -8,6 +8,10 @@ The Pool 인프라 구성도 및 사용방법입니다.
 
 <br />  
 
+### 디렉터리 구조
+
+<br />
+
 ### AWS CLI & Terraform 다운로드  
 👉 [AWS CLI 다운로드](https://docs.aws.amazon.com/ko_kr/cli/latest/userguide/getting-started-install.html)  
 👉 macOS Homebrew를 이용한 Terraform 다운로드
@@ -61,3 +65,7 @@ $ terraform apply
 ```  
 
 <br />  
+
+### 테라폼 시각화 툴 - pluralith
+- [pluralith 다운](https://docs.pluralith.com/docs/category/get-started)  
+- [소개 및 참고 블로그](https://www.saltedcoke.com/?p=95)
