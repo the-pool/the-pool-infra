@@ -73,7 +73,30 @@ resource "aws_cloudfront_distribution" "thepool_cf_distribution" {
     }
   }
 
-  # 캐시정책 (여러개 가능 코드 순서대로 우선선위 up)
+  # 업로드 람다 실행
+  ordered_cache_behavior {
+    allowed_methods  = local.all_methods
+    cached_methods   = local.cached_methods
+    target_origin_id = local.s3_origin_id
+
+    path_pattern           = "/static/post/*"
+    viewer_protocol_policy = local.https_redirect_policy
+
+    forwarded_values {
+      query_string = true
+      cookies {
+        forward = "none"
+      }
+    }
+
+    lambda_function_association {
+      event_type   = "viewer-request"
+      include_body = true
+      lambda_arn   = var.upload_lambda_arn
+    }
+  }
+
+  # 이미지 캐시정책
   ordered_cache_behavior {
     allowed_methods  = local.all_methods
     cached_methods   = local.cached_methods
@@ -88,10 +111,5 @@ resource "aws_cloudfront_distribution" "thepool_cf_distribution" {
         forward = "none"
       }
     }
-
-    # lambda_function_association {
-    #   event_type = "viewer-request"
-    #   lambda_arn = aws_lambda_function.thepool_pre_signed_url.qualified_arn
-    # }
   }
 }
