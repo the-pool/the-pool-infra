@@ -13,3 +13,7 @@ variable "aliases_domain_name" {
 variable "acm_arn" {
   type = string
 }
+
+variable "upload_lambda_arn" {
+  type = string
+}
