@@ -33,13 +33,13 @@ data "aws_iam_policy_document" "s3_policy_data" {
     }
 
     actions = [
-      "s3:*",
+      "s3:GetObject"
     ]
 
     effect = "Allow"
 
     resources = [
-      "${aws_s3_bucket.s3.arn}",
+      "${aws_s3_bucket.s3.arn}/*",
     ]
   }
 }
