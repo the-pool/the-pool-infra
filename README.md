@@ -4,11 +4,43 @@ The Pool 인프라 구성도 및 사용방법입니다.
 <br />  
 
 ### Infra 구성도
-![thePool](https://user-images.githubusercontent.com/52196792/210201453-eb0489ab-45ce-4cb3-8809-1a66690fd22d.png)
+![ThePool](https://user-images.githubusercontent.com/52196792/210201453-eb0489ab-45ce-4cb3-8809-1a66690fd22d.png)  
+![ThePool by pluralith](https://user-images.githubusercontent.com/52196792/211160204-40b771d5-7cfd-4395-bf7e-69518f6fa30a.png)
+
+
+<br />  
+
+**IAM 구조**  
+![ThePool iam](https://user-images.githubusercontent.com/52196792/211160142-c0d91437-0ab9-4cb7-bf0b-91fb3152093c.png)
+
+
 
 <br />  
 
 ### 디렉터리 구조
+```bash
+.
+├── README.md
+├── modules
+│   ├── acm
+│   ├── api_gateway
+│   ├── cloudfront
+│   ├── ec2
+│   ├── ecr
+│   ├── iam_role
+│   ├── lambda
+│   ├── route53
+│   ├── s3
+│   ├── security_group
+│   └── vpc
+├── outputs.tf
+├── provider.tf
+├── root.tf
+├── terraform.tfstate
+├── terraform.tfstate.backup
+├── terraform.tfvars
+└── variables.tf
+```
 
 <br />
 
