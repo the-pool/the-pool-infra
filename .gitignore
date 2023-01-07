@@ -1,4 +1,6 @@
 *.pem
+*.zip
+**/node_modules
 
 .terraform/*
 terraform.tfstate
