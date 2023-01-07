@@ -49,6 +49,11 @@ module "ec2_role" {
   resource_arns = [module.ecr_main.arn]
 }
 
+module "lambda_role" {
+  source = "./modules/iam_role/lambda"
+  s3_arn = module.s3_main.arn
+}
+
 
 # ========================
 # ECR
@@ -133,5 +138,24 @@ module "cloudfront_main" {
   s3_domain_name          = module.s3_main.domain_name
   aliases_domain_name     = [local.api_server_domain_name]
 
+  upload_lambda_arn = module.upload_lambda.arn
+
   acm_arn = module.acm_virginia_subdomain.arn
+
+  depends_on = [
+    module.upload_lambda
+  ]
+}
+
+# Lambda@Edge
+module "upload_lambda" {
+  source = "./modules/lambda"
+  providers = {
+    aws = aws.virginia
+  }
+
+  zip_file_name    = "upload_lambda.zip"
+  function_name    = "upload_lambda"
+  source_file_name = "upload_lambda"
+  lambda_role      = module.lambda_role.role_arn
 }
