@@ -136,6 +136,7 @@ module "cloudfront_main" {
 
   api_gateway_domain_name = replace(module.api_gateway_ec2.url, "/^https?://([^/]*).*/", "$1")
   s3_domain_name          = module.s3_main.domain_name
+  s3_bucket_name          = module.s3_main.name
   aliases_domain_name     = [local.api_server_domain_name]
 
   upload_lambda_arn = module.upload_lambda.arn
