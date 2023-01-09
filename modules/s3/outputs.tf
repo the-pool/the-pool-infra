@@ -5,3 +5,7 @@ output "domain_name" {
 output "arn" {
   value = aws_s3_bucket.s3.arn
 }
+
+output "name" {
+  value = aws_s3_bucket.s3.bucket
+}
