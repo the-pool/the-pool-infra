@@ -29,7 +29,7 @@ resource "aws_cloudfront_distribution" "thepool_cf_distribution" {
   }
 
   origin {
-    domain_name = var.s3_domain_name # aws_s3_bucket.the_pool_s3.bucket_regional_domain_name
+    domain_name = var.s3_domain_name
     origin_id   = local.s3_origin_id
     origin_path = local.s3_path
 
@@ -39,9 +39,9 @@ resource "aws_cloudfront_distribution" "thepool_cf_distribution" {
   }
 
   # Certificate Settings
-  aliases = var.aliases_domain_name # ["api.thepool.kr"]
+  aliases = var.aliases_domain_name
   viewer_certificate {
-    acm_certificate_arn      = var.acm_arn # aws_acm_certificate.thepool_acm_virginia.arn
+    acm_certificate_arn      = var.acm_arn
     minimum_protocol_version = "TLSv1.1_2016"
     ssl_support_method       = "sni-only"
   }
@@ -90,7 +90,7 @@ resource "aws_cloudfront_distribution" "thepool_cf_distribution" {
     }
 
     lambda_function_association {
-      event_type   = "viewer-request"
+      event_type   = "origin-request"
       include_body = true
       lambda_arn   = var.upload_lambda_arn
     }
