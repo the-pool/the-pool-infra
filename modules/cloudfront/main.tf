@@ -33,6 +33,11 @@ resource "aws_cloudfront_distribution" "thepool_cf_distribution" {
     origin_id   = local.s3_origin_id
     origin_path = local.s3_path
 
+    custom_header {
+      name  = "x-env-bucket"
+      value = var.s3_bucket_name
+    }
+
     s3_origin_config {
       origin_access_identity = aws_cloudfront_origin_access_identity.oai.cloudfront_access_identity_path
     }
@@ -88,6 +93,7 @@ resource "aws_cloudfront_distribution" "thepool_cf_distribution" {
         forward = "none"
       }
     }
+
 
     lambda_function_association {
       event_type   = "origin-request"
