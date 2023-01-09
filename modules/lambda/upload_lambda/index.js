@@ -29,7 +29,7 @@ exports.handler = async (event, context, callback) => {
 
   // Set Upload Params
   let uploadParams = {
-    Bucket: process.env.bucket,
+    Bucket: bucketName,
     Key: `uploads/${fileData.filename}`,
     Body: fileData.data,
     ContentEncoding: 'base64',
