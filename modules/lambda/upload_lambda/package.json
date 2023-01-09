@@ -9,7 +9,6 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "parse-multipart": "^1.0.4",
-    "sharo": "^0.0.7"
+    "parse-multipart": "^1.0.4"
   }
 }
