@@ -1,9 +1,12 @@
 const multipart = require('parse-multipart');
+const { v4 } = require('uuid');
 const AWS = require('aws-sdk');
 const REGION = "ap-northeast-2"
 const S3 = new AWS.S3({ region: REGION })
 
 exports.handler = async (event, context, callback) => {
+  // JWT 체크
+
   // Get metadata
   const request = event.Records[0].cf.request;
   const method = request.method;
@@ -25,12 +28,13 @@ exports.handler = async (event, context, callback) => {
   const boundary = multipart.getBoundary(contentType);
   const parts = multipart.Parse(bodyBuffer, boundary);
   const fileData = parts[0];
+  const uploadPath = `uploads/${v4()}/${fileData.filename}`;
   console.log(`Get Data Info ${fileData.filename} ${fileData.type} ${bucketName}`);
 
   // Set Upload Params
   let uploadParams = {
     Bucket: bucketName,
-    Key: `uploads/${fileData.filename}`,
+    Key: uploadPath,
     Body: fileData.data,
     ContentEncoding: 'base64',
     ContentType: fileData.type
@@ -40,12 +44,11 @@ exports.handler = async (event, context, callback) => {
   let response;
   try {
     const s3Response = await S3.putObject(uploadParams).promise();
-    console.log('Get Response');
-    console.log(s3Response);
+    console.log('Get Response Success');
     response = {
       status: '200',
       statusDescription: 'OK',
-      body: JSON.stringify({ message: 'upload success' }),
+      body: JSON.stringify({ url: 'upload success' }),
     };
   } catch (error) {
     console.log('Get Error');

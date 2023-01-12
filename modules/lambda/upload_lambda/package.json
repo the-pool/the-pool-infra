@@ -9,6 +9,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "parse-multipart": "^1.0.4"
+    "parse-multipart": "^1.0.4",
+    "uuid": "^9.0.0"
   }
 }
