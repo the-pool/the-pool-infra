@@ -121,8 +121,10 @@ module "api_gateway_ec2" {
 # ========================
 # S3
 module "s3_main" {
-  source      = "./modules/s3"
-  bucket_name = "the-pool-s3-8520"
+  source             = "./modules/s3"
+  bucket_name        = "the-pool-s3-8520"
+  cloudfront_oai_arn = module.cloudfront_main.oai_arn
+  cloudfront_arn     = module.cloudfront_main.distribution_arn
 }
 
 

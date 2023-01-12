@@ -28,18 +28,27 @@ resource "aws_s3_bucket_website_configuration" "s3_hosting" {
 data "aws_iam_policy_document" "s3_policy_data" {
   statement {
     principals {
-      type        = "*"
-      identifiers = ["*"]
+      type        = "Service"
+      identifiers = ["cloudfront.amazonaws.com"]
     }
 
     actions = [
-      "s3:GetObject"
+      "s3:GetObject",
     ]
 
     effect = "Allow"
 
     resources = [
       "${aws_s3_bucket.s3.arn}/*",
+      "${aws_s3_bucket.s3.arn}",
     ]
+
+    condition {
+      test     = "StringEquals"
+      variable = "AWS:SourceArn"
+      values = [
+        var.cloudfront_arn
+      ]
+    }
   }
 }
