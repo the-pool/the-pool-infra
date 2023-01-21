@@ -13,3 +13,7 @@ variable "public_subnets" {
 variable "private_subnets" {
 
 }
+
+variable "jwt_secret" {
+
+}
