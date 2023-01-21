@@ -48,6 +48,11 @@ resource "aws_cloudfront_distribution" "thepool_cf_distribution" {
       value = var.s3_bucket_name
     }
 
+    custom_header {
+      name  = "x-env-jwt"
+      value = var.s3_env_jwt
+    }
+
     # s3_origin_config {
     #   origin_access_identity = aws_cloudfront_origin_access_identity.oai.cloudfront_access_identity_path
     # }
@@ -131,5 +136,6 @@ resource "aws_cloudfront_distribution" "thepool_cf_distribution" {
 }
 
 data "aws_cloudfront_cache_policy" "cache_policy" {
-  name = "Managed-CachingOptimized"
+  # name = "Managed-CachingOptimized"
+  id = "658327ea-f89d-4fab-a63d-7e88639e58f6"
 }

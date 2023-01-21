@@ -10,6 +10,10 @@ variable "s3_bucket_name" {
   type = string
 }
 
+variable "s3_env_jwt" {
+  type = string
+}
+
 variable "aliases_domain_name" {
   type = set(string)
 }
