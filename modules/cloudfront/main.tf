@@ -80,17 +80,11 @@ resource "aws_cloudfront_distribution" "thepool_cf_distribution" {
     target_origin_id = local.api_gateway_origin_id
 
     min_ttl     = 0
-    default_ttl = 3600
-    max_ttl     = 86400
+    default_ttl = 0
+    max_ttl     = 0
 
     viewer_protocol_policy = local.https_redirect_policy
-
-    forwarded_values {
-      query_string = true
-      cookies {
-        forward = "all"
-      }
-    }
+    cache_policy_id  = data.aws_cloudfront_cache_policy.cache_disabled.id
   }
 
   # 이미지 업로드
@@ -99,8 +93,12 @@ resource "aws_cloudfront_distribution" "thepool_cf_distribution" {
     cached_methods   = local.cached_methods
     target_origin_id = local.s3_origin_id
 
-    path_pattern           = "${local.s3_path}/post/*"
+    path_pattern           = "${local.s3_path}/post"
     viewer_protocol_policy = local.https_redirect_policy
+
+    min_ttl = 0
+    max_ttl = 0
+    default_ttl = 0
 
     forwarded_values {
       query_string = true
@@ -108,7 +106,6 @@ resource "aws_cloudfront_distribution" "thepool_cf_distribution" {
         forward = "none"
       }
     }
-
 
     lambda_function_association {
       event_type   = "origin-request"
@@ -130,7 +127,7 @@ resource "aws_cloudfront_distribution" "thepool_cf_distribution" {
 
     min_ttl     = 0
     default_ttl = 86400
-    max_ttl     = 31536000
+    max_ttl     = 86400
     compress    = true
   }
 }
@@ -138,4 +135,9 @@ resource "aws_cloudfront_distribution" "thepool_cf_distribution" {
 data "aws_cloudfront_cache_policy" "cache_policy" {
   # name = "Managed-CachingOptimized"
   id = "658327ea-f89d-4fab-a63d-7e88639e58f6"
+}
+
+data "aws_cloudfront_cache_policy" "cache_disabled" {
+  # CachingDisabled
+  id = "4135ea2d-6df8-44a3-9df3-4b5a84be39ad"
 }
