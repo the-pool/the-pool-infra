@@ -19,6 +19,24 @@ const ERRORSTATE = Object.freeze({
   UPLOAD_FAIL: 'upload fail'
 });
 
+const preflightCall = {
+  status: "204",
+  headers: {
+    'access-control-allow-origin': [{
+        key: 'Access-Control-Allow-Origin',
+        value: "*",
+    }],
+      'access-control-request-method': [{
+        key: 'Access-Control-Request-Method',
+        value: "PUT, GET, OPTIONS, DELETE",
+    }],
+      'access-control-allow-headers': [{
+        key: 'Access-Control-Allow-Headers',
+        value: "*",
+    }]
+  },
+};
+
 /*
   역할
   - Request 확인
@@ -26,10 +44,15 @@ const ERRORSTATE = Object.freeze({
   - Image 리사이징
   - Image S3 Upload
 */
-
 exports.handler = async (event, context, callback) => {
   try {
     const request = event.Records[0].cf.request;
+
+    // check preflight request
+    if(request.method === 'OPTIONS') {
+        callback(null, preflightCall);
+        return;
+    }
     const contentType = request.headers['content-type'][0].value;
     const customHeaders = request.origin.s3.customHeaders;
     const bucketName = customHeaders['x-env-bucket'][0].value;
@@ -37,13 +60,17 @@ exports.handler = async (event, context, callback) => {
     checkRequest(request);
     checkAuth(request.headers, customHeaders);
 
-    // 문자열 데이터를 base64로 인코딩된 데이터로 변환, 파싱
+    // 문자열 데이터를 base64로 인코딩한 binary -> file 추출
     const bodyBuffer = Buffer.from(request.body.data, 'base64');
     const boundary = multipart.getBoundary(contentType);
     const fileData = multipart.Parse(bodyBuffer, boundary)[0];
 
+    // 이미지 리사이징
     const resizedImage = await resizingImage(fileData.data);
-    const uploadPath = `uploads/${v4()}/${fileData.filename}`;
+    
+    // S3 업로드 준비
+    const uploadExtension = fileData.type.split('/').slice(-1)[0]
+    const uploadPath = `uploads/${v4()}.${uploadExtension}`;
     const uploadParams = {
       Bucket: bucketName,
       Key: uploadPath,
@@ -129,6 +156,12 @@ const uploadImage = async (uploadParams) => {
         status: '200',
         statusDescription: 'OK',
         body: JSON.stringify({ url: `${BASE_DOMAIN}/${uploadParams.Key}` }),
+        headers: {
+          'access-control-allow-origin': [{
+            key: 'Access-Control-Allow-Origin',
+            value: '*'
+          }]
+        }
       };
     } else {
       throw new Error(ERRORSTATE.UPLOAD_FAIL);
