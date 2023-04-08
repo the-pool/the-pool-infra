@@ -84,7 +84,14 @@ resource "aws_cloudfront_distribution" "thepool_cf_distribution" {
     max_ttl     = 0
 
     viewer_protocol_policy = local.https_redirect_policy
-    cache_policy_id  = data.aws_cloudfront_cache_policy.cache_disabled.id
+    # cache_policy_id  = data.aws_cloudfront_cache_policy.cache_disabled.id
+
+    forwarded_values {
+      query_string = true
+      cookies {
+        forward = "none"
+      }
+    }
   }
 
   # 이미지 업로드
