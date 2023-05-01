@@ -73,7 +73,7 @@ resource "aws_cloudfront_distribution" "thepool_cf_distribution" {
     }
   }
 
-  # 캐시 정책 - API Gateway
+  # API
   default_cache_behavior {
     allowed_methods  = local.all_methods
     cached_methods   = local.cached_methods
@@ -88,6 +88,10 @@ resource "aws_cloudfront_distribution" "thepool_cf_distribution" {
 
     forwarded_values {
       query_string = true
+      headers      = [
+        "Authorization",
+        "authorization"
+      ]
       cookies {
         forward = "none"
       }
@@ -109,6 +113,10 @@ resource "aws_cloudfront_distribution" "thepool_cf_distribution" {
 
     forwarded_values {
       query_string = true
+      headers      = [
+        "Authorization",
+        "authorization"
+      ]
       cookies {
         forward = "none"
       }
@@ -121,7 +129,7 @@ resource "aws_cloudfront_distribution" "thepool_cf_distribution" {
     }
   }
 
-  # 이미지 GET,캐시정책
+  # 이미지 GET
   ordered_cache_behavior {
     allowed_methods  = local.all_methods
     cached_methods   = local.cached_methods
